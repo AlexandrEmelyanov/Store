@@ -1,8 +1,9 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import HttpResponseRedirect
 from django.contrib import auth
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.views import LoginView
 
 from .models import User
 from .forms import UserLoginForm, UserRegistrationForm, UserProfileForm
@@ -10,20 +11,10 @@ from products.models import Basket
 from common.views import TitleMixin
 
 
-def login(request):
-    if request.method == 'POST':
-        form = UserLoginForm(data=request.POST)
-        if form.is_valid():  # если форма валидная
-            username = request.POST['username']  # по ключу достаем из словаря логин и пароль
-            password = request.POST['password']
-            user = auth.authenticate(username=username, password=password)  # проверка аутентификации
-            if user:  # если аутентификация успешна
-                auth.login(request, user)  # авторизуем пользователя
-                return HttpResponseRedirect(reverse('index'))  # перенаправляем на главную страницу
-    else:  # если запрос - GET
-        form = UserLoginForm()
-    context = {'form': form}
-    return render(request, 'users/login.html', context=context)  # возвращаем страницу с авторизацией
+class UserLoginView(TitleMixin, LoginView):
+    template_name = 'users/login.html'
+    form_class = UserLoginForm
+    title = 'Store - Авторизация'
 
 
 class UserRegistrationView(SuccessMessageMixin, TitleMixin, CreateView):
@@ -48,11 +39,6 @@ class UserProfileView(TitleMixin, UpdateView):
         context = super(UserProfileView, self).get_context_data()
         context['baskets'] = Basket.objects.filter(user=self.object)
         return context
-
-
-def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect(reverse('index'))
 
 
 # def registration(request):
@@ -89,8 +75,22 @@ def logout(request):
 #     return render(request, 'users/profile.html', context=context)
 
 
-# from django.contrib.auth.views import LoginView
+# def login(request):
+#     if request.method == 'POST':
+#         form = UserLoginForm(data=request.POST)
+#         if form.is_valid():  # если форма валидная
+#             username = request.POST['username']  # по ключу достаем из словаря логин и пароль
+#             password = request.POST['password']
+#             user = auth.authenticate(username=username, password=password)  # проверка аутентификации
+#             if user:  # если аутентификация успешна
+#                 auth.login(request, user)  # авторизуем пользователя
+#                 return HttpResponseRedirect(reverse('index'))  # перенаправляем на главную страницу
+#     else:  # если запрос - GET
+#         form = UserLoginForm()
+#     context = {'form': form}
+#     return render(request, 'users/login.html', context=context)  # возвращаем страницу с авторизацией
 
-# class UserLoginView(LoginView):
-#     template_name = 'users/login.html'
-#     form_class = UserLoginForm
+
+# def logout(request):
+#     auth.logout(request)
+#     return HttpResponseRedirect(reverse('index'))
