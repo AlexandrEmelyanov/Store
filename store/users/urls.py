@@ -1,11 +1,13 @@
 from django.urls import path
+from django.contrib.auth.decorators import login_required
+
 from . import views
 
 app_name = 'users'
 
 urlpatterns = [
     path('login/', views.login, name='login'),
-    path('registration/', views.registration, name='registration'),
-    path('profile/', views.profile, name='profile'),
+    path('registration/', views.UserRegistrationView.as_view(), name='registration'),
+    path('profile/<int:pk>/', login_required(views.UserProfileView.as_view()), name='profile'),
     path('logout/', views.logout, name='logout'),
 ]
