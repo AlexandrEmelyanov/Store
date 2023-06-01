@@ -1,5 +1,6 @@
 from django.contrib import admin
-from products.models import ProductCategory, Products, Basket
+
+from products.models import Basket, ProductCategory, Products
 
 # Register your models here.
 
@@ -12,9 +13,9 @@ class ProductAdmin(admin.ModelAdmin):
     fields = ('name', ('price', 'quantity'), 'category', 'image', 'description')  # поля которые можно редактировать
     # использование вложенного кортежа позволяет в редактировании, чтобы отображались на одной строке
     # также можно менять порядок - в каком порядке передадим в таком будут отображаться при редактировании (создании)
-    readonly_fields = ('description',)  # доступ к переменной только для чтения (нельзя редактировать)
+    # readonly_fields = ('description',)  # доступ к переменной только для чтения (нельзя редактировать)
     search_fields = ('name', )  # поисковая строка (в которой указывается по каким полям будет идти поиск)
-    ordering = ('name', ) # сортировка отображения (отображение в алфавитном порядке по имени например
+    ordering = ('name', )  # сортировка отображения (отображение в алфавитном порядке по имени например
 
 
 class BasketAdmin(admin.TabularInline):

@@ -1,11 +1,11 @@
-from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic.base import TemplateView
+from django.shortcuts import HttpResponseRedirect
 from django.views.generic import ListView
+from django.views.generic.base import TemplateView
 
-from .models import Products, ProductCategory, Basket
 from common.views import TitleMixin
 
+from .models import Basket, ProductCategory, Products
 
 # Create your views here.
 
@@ -55,9 +55,6 @@ def basket_remove(request, basket_id):
     basket = Basket.objects.get(id=basket_id)
     basket.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
-
-
 
 # def products(request, category_id=None, page_number=1):
 #     products = Products.objects.filter(category_id=category_id) if category_id else Products.objects.all()
