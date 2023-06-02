@@ -3,7 +3,7 @@ from http import HTTPStatus
 from django.test import TestCase
 from django.urls import reverse
 
-from products.models import Products, ProductCategory
+from products.models import ProductCategory, Products
 
 
 class IndexViewTestCase(TestCase):
