@@ -156,14 +156,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Users
-
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 # Sending emails
-
 EMAIL_HOST = 'smtp.yandex.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'store-testing@yandex.ru'
@@ -173,7 +171,6 @@ EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = 'store-testing@yandex.ru'
 
 # OAuth
-
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -190,3 +187,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+# Celery
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
