@@ -2,8 +2,9 @@ from django import forms
 from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
                                        UserCreationForm)
 
-from .models import User
 from users import tasks
+
+from .models import User
 
 
 class UserLoginForm(AuthenticationForm):

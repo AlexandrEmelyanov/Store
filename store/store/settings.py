@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'django.contrib.sites',
+    'django.contrib.humanize',
 
     'allauth',
     'allauth.account',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
 
     'products',
     'users',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -156,8 +158,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Users
-AUTH_USER_MODEL = 'users.User'
-LOGIN_URL = '/users/login/'
+AUTH_USER_MODEL = 'users.User'  # глобальное переопределение модели: User(AbstractUser)
+LOGIN_URL = '/users/login/'  # аргумент для перенаправления на эту страницу в декораторе доступа (login_url)
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 

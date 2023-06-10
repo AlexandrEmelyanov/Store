@@ -52,6 +52,7 @@ class EmailVerificationView(TitleMixin, TemplateView):
             return HttpResponseRedirect(reverse('index'))
 
 
+# FBV
 # def registration(request):
 #     if request.method == 'POST':
 #         form = UserRegistrationForm(data=request.POST)
