@@ -10,7 +10,8 @@ admin.site.register(ProductCategory)
 @admin.register(Products)  # перед началом указываем с какой моделью будет работать этот класс
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'price', 'quantity', 'category']  # отображение в таблице столбцов
-    fields = ('name', ('price', 'quantity'), 'category', 'image', 'description')  # поля которые можно редактировать
+    fields = ('name', ('price', 'quantity'), 'category', 'image', 'stripe_product_price_id', 'description')
+    # поля которые можно редактировать
     # использование вложенного кортежа позволяет в редактировании, чтобы отображались на одной строке
     # также можно менять порядок - в каком порядке передадим в таком будут отображаться при редактировании (создании)
     # readonly_fields = ('description',)  # доступ к переменной только для чтения (нельзя редактировать)

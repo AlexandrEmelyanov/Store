@@ -24,6 +24,7 @@ class Products(models.Model):
     image = models.ImageField(upload_to='products_images')  # указывается куда сохраняются images
     # в on_delete PROTECT - категорию нельзя будут удалить пока не будут удалены все продукты данной
     # CASCADE - при удалении категории к которой привязаны продукты, будет запрашиваться подтверждение на удаление
+    stripe_product_price_id = models.CharField(max_length=128, null=True, blank=True)
     category = models.ForeignKey(to=ProductCategory, on_delete=models.CASCADE)
 
     def __str__(self):
