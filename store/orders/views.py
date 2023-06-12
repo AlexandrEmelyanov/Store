@@ -4,6 +4,8 @@ from http import HTTPStatus
 from django.http import HttpResponseRedirect
 from django.views.generic.edit import CreateView
 from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy, reverse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
@@ -24,6 +26,17 @@ class SuccessTemplateView(TitleMixin, TemplateView):
 
 class CanceledTemplateView(TemplateView):
     template_name = 'orders/cancel.html'
+
+
+class OrderListView(TitleMixin, ListView):
+    template_name = 'orders/orders.html'
+    title = 'Store - заказы'
+    queryset = Order.objects.all()
+    ordering = ('-created',)
+
+    def get_queryset(self):  # поскольку нам не нужны все заказы (только для пользователя) мы переопределяем метод
+        queryset = super(OrderListView, self).get_queryset()
+        return queryset.filter(initiator=self.request.user)
 
 
 class OrderCreateView(TitleMixin, CreateView):
@@ -82,18 +95,3 @@ def fulfill_order(session):
     order_id = int(session.metadata.order_id)
     order = Order.objects.get(id=order_id)
     order.update_after_payment()
-
-
-    # if event['type'] == 'checkout.session.completed':
-    #     # Retrieve the session. If you require line items in the response, you may include them by expanding line_items.
-    #     session = stripe.checkout.Session.retrieve(
-    #         event['data']['object']['id'],
-    #         expand=['line_items'],
-    #     )
-    #
-    #     line_items = session.line_items
-    #     # Fulfill the purchase...
-    #     fulfill_order(line_items)
-    #
-    # # Passed signature verification
-    # return HttpResponse(status=200)
