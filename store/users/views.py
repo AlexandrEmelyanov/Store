@@ -32,7 +32,7 @@ class UserProfileView(TitleMixin, UpdateView):
     template_name = 'users/profile.html'
     title = 'Store - Личный кабинет'
 
-    def get_success_url(self):  # переопределяем для перенаправления на страницу после отправки формы
+    def get_success_url(self):
         return reverse_lazy('users:profile', args=(self.object.id,))
 
 
@@ -43,11 +43,11 @@ class EmailVerificationView(TitleMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         code = kwargs['code']
         user = User.objects.get(email=kwargs['email'])
-        email_verifications = EmailVerification.objects.filter(user=user, code=code)  # возврат объект EmailVerification
+        email_verifications = EmailVerification.objects.filter(user=user, code=code)
         if email_verifications and not email_verifications.first().is_expired():
             user.is_verified_email = True
             user.save()
-            return super(EmailVerificationView, self).get(request, *args, **kwargs)  # чтобы шаблон был отображен
+            return super(EmailVerificationView, self).get(request, *args, **kwargs)
         else:
             return HttpResponseRedirect(reverse('index'))
 

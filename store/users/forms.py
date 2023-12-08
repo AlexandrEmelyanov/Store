@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
                                        UserCreationForm)
 
-from users import tasks
+from users.tasks import send_email_verification
 
 from .models import User
 
@@ -38,7 +38,7 @@ class UserRegistrationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super(UserRegistrationForm, self).save(commit=True)
-        tasks.send_email_verification.delay(user.id)
+        send_email_verification.delay(user.id)
         return user
 
 

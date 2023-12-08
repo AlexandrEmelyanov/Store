@@ -8,7 +8,6 @@
 
 
 {% block content %}
-    <!-- Page Content -->
     <div class="container">
 
         <div class="row">
@@ -23,8 +22,6 @@
                 </div>
 
             </div>
-            <!-- /.col-lg-3 -->
-
             <div class="col-lg-9">
 
                 <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
@@ -56,13 +53,13 @@
 
                 <div class="row">
 
-                    {% cache 1 object_list %}  <!-- !!! -->
+                    {% cache 1 object_list %}
                         {% for product in object_list %}
                             <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
                                 <a href="#">
                                     <img class="card-img-top"
-                                         src="{{ product.image.url }}">  <!-- ### -->
+                                         src="{{ product.image.url }}">
                                 </a>
                                 <div class="card-body">
                                     <h4 class="card-title">
@@ -115,20 +112,15 @@
                 </nav>
                 {% endif %}
             </div>
-
         </div>
-
     </div>
-    <!-- /.container -->
 {% endblock %}
 
 
 {% block footer %}
-    <!-- Footer -->
     <footer class="py-5 bg-dark">
     <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; Store 2022</p>
     </div>
-    <!-- /.container -->
 </footer>
 {% endblock %}

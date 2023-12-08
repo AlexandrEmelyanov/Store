@@ -23,7 +23,7 @@ class Order(models.Model):
     basket_history = models.JSONField(default=dict)
     created = models.DateTimeField(auto_now_add=True)
     status = models.SmallIntegerField(default=CREATED, choices=STATUSES)
-    initiator = models.ForeignKey(User, on_delete=models.CASCADE)  # если пользователь удален -> удалена история заказов
+    initiator = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Order #{self.id}. {self.first_name} {self.last_name}'

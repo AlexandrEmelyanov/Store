@@ -1,12 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Checkout canceled</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <section>
-    <p>Forgot to add something to your cart? Shop around then come back to pay!</p>
-  </section>
-</body>
-</html>
+{% extends 'users/base.html' %}
+
+{% block content %}
+    <main>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                        <div class="card-header">
+                            <h3 class="text-center font-weight-light my-4">Что-то пошло не так :(</h3>
+                        </div>
+                        <div class="card-body text-center">
+                            <h4 style="margin-bottom: 15px; text-align: justify">
+                                Пожалуйста, проверьте введенные данные и попробуйте заново оформить заказ.
+                            </h4>
+                            <a href="{% url 'products:index' %}" style="
+                            background-color: #0080FF;
+                            color: #FFFFFF;
+                            text-decoration: none;
+                            border-radius: 4px;
+                            padding: 5px 10px;
+                            font-size: 17px;">Продолжить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

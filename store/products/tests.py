@@ -8,9 +8,9 @@ from products.models import ProductCategory, Products
 
 class IndexViewTestCase(TestCase):
 
-    def test_view(self):  # обязательно начинать с test_...
-        path = reverse('index')  # index - http://127/0.0.1:8000/
-        response = self.client.get(path)  # self.client.get - позволяет создать get запрос
+    def test_view(self):
+        path = reverse('index')
+        response = self.client.get(path)
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(response.context_data['title'], 'Store')
@@ -18,7 +18,7 @@ class IndexViewTestCase(TestCase):
 
 
 class ProductsListViewTestCase(TestCase):
-    fixtures = ['categories.json', 'products.json']  # при создании тестовой БД, она будет заполняться этими данными
+    fixtures = ['categories.json', 'products.json']
 
     def setUp(self):
         self.products = Products.objects.all()

@@ -6,26 +6,22 @@ from django.urls import reverse
 from django.utils.timezone import now
 
 
-# Create your models here.
-
 class User(AbstractUser):
     image = models.ImageField(upload_to='users_images', null=True, blank=True)
-    is_verified_email = models.BooleanField(default=False)  # подтвердил ли пользователь почту
+    is_verified_email = models.BooleanField(default=False)
 
 
 class EmailVerification(models.Model):
-    code = models.UUIDField(unique=True)  # UUIDField - генерирует уникальный идентификатор
+    code = models.UUIDField(unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
-    expiration = models.DateTimeField()  # срок действия ссылки
+    expiration = models.DateTimeField()
 
     def __str__(self):
         return f'EmailVerification object for {self.user.email}'
 
     def send_verification_email(self):
-        # link - ссылка будет сформирована как users/verify/email/code/
         link = reverse('users:email_verification', kwargs={'email': self.user.email, 'code': self.code})
-        # verification_link - формирование полной ссылки DOMAIN_NAME/users/verify/email/code/
         verification_link = f'{settings.DOMAIN_NAME}{link}'
         subject = f'Подтверждение учетной записи для {self.user.username}'
         message = 'Для подтверждения учетной записи для {} перейдите по ссылке: {}'.format(
@@ -41,4 +37,4 @@ class EmailVerification(models.Model):
         )
 
     def is_expired(self):  # проверка действительности ссылки
-        return True if now() >= self.expiration else False  # если False - ссылка еще действительна
+        return True if now() >= self.expiration else False

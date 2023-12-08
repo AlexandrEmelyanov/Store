@@ -10,5 +10,4 @@ urlpatterns = [
     path('order/<int:pk>/', views.OrderDetailView.as_view(), name='order'),
     path('order-canceled/', views.CanceledTemplateView.as_view(), name='order_canceled'),
     path('order-success/', views.SuccessTemplateView.as_view(), name='order_success'),
-    path('order-success/', views.SuccessTemplateView.as_view(), name='order_success'),
 ]

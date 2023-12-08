@@ -9,6 +9,6 @@ urlpatterns = [
     path('category/<int:category_id>', views.ProductsListView.as_view(), name='category'),
     path('page/<int:page>', views.ProductsListView.as_view(), name='paginator'),
 
-    path('baskets/add/<int:product_id>/', views.basket_add, name='basket_add'),  # ../products/baskets/add/<product_id>
+    path('baskets/add/<int:product_id>/', views.basket_add, name='basket_add'),
     path('baskets/remove/<int:basket_id>/', views.basket_remove, name='basket_remove'),
 ]

@@ -8,14 +8,14 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class ProductCategory(models.Model):
-    name = models.CharField(max_length=128, unique=True)  # CharField - для небольшого текста
-    description = models.TextField(null=True, blank=True)  # TextField - для текста любого объема
+    name = models.CharField(max_length=128, unique=True)
+    description = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = 'Category'  # Для отображение имени в django admin
+        verbose_name = 'Category'
         verbose_name_plural = 'Categories'
 
 
@@ -24,9 +24,7 @@ class Products(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
     quantity = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to='products_images')  # указывается куда сохраняются images
-    # в on_delete PROTECT - категорию нельзя будут удалить пока не будут удалены все продукты данной
-    # CASCADE - при удалении категории к которой привязаны продукты, будет запрашиваться подтверждение на удаление
+    image = models.ImageField(upload_to='products_images')
     stripe_product_price_id = models.CharField(max_length=128, null=True, blank=True)
     category = models.ForeignKey(to=ProductCategory, on_delete=models.CASCADE)
 
@@ -34,7 +32,7 @@ class Products(models.Model):
         return f'Продукт: {self.name} | Категория: {self.category.name}'
 
     class Meta:
-        verbose_name = 'Product'  # Для отображение имени в django admin
+        verbose_name = 'Product'
         verbose_name_plural = 'Products'
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
@@ -47,14 +45,14 @@ class Products(models.Model):
         stripe_product = stripe.Product.create(name=self.name)
         stripe_product_price = stripe.Price.create(
             product=stripe_product['id'],
-            unit_amount=round(self.price * 100),  # т.к. price хранящаяся DecimalField, должна быть округлена до копеек
+            unit_amount=round(self.price * 100),
             currency='rub'
         )
         return stripe_product_price
 
 
 class BasketQuerySet(models.QuerySet):
-    def total_sum(self):  # этот self - уже будет обращение ко всему классу (ко всем объектам класса)
+    def total_sum(self):
         return sum(basket.sum() for basket in self)
 
     def total_quantity(self):
@@ -72,15 +70,11 @@ class BasketQuerySet(models.QuerySet):
 
 
 class Basket(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # связываем столбец с id users
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)  # связываем столбец с id продукта
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0)
-
     created_timestamp = models.DateTimeField(auto_now_add=True)
-    # DateTimeField - метод для отображения даты
-    # auto_now_add - автоматически будет заполняться при создании нового объекта
-
-    objects = BasketQuerySet.as_manager()  # говорим обращаться к созданному классу как к менеджеру
+    objects = BasketQuerySet.as_manager()
 
     def __str__(self):
         return f'Корзина для {self.user.username} | Продукт: {self.product.name}'
