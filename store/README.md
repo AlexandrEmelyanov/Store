@@ -80,7 +80,8 @@ python manage.py runserver
 файл **.env** не был добавлен в **gitignore**. Выполните следующую команду, взяв ключ из файла **.env**:
 
 ```shell
-.\stripe login ---api-key stripe_secret_key
+.\stripe login --interactive
+Enter your API key: stripe_secret_key
 ```
 
 Далее необходимо подключить **webhook**:
